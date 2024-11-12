@@ -1,0 +1,79 @@
+fields,datatype,description
+org_id,string,"The unique identifier of the Customer, identical to that of the equivalent Involved Party."
+ip_id,string,The unique identifier assigned to an Involved Party.
+shrt_nm_vn,string,short name in Vietnamese
+shrt_nm_en,string,short name in English
+full_nm_vn,string,full name in Vietnamese
+full_nm_en,string,full name in English
+sctr_code,int,sector code
+biz_line,string,"biz line, lookup from t24 sector"
+brth_dt,date,the day establish company
+email,"array<map<string,map<string,string>>>",email id
+tele_ph,"array<map<string,map<string,string>>>",main tele phone number
+nationality_code,string,primary nationality
+frst_ctc_dt,date,first date which customer contact with bank
+eff_cst_dt,date,The date upon on which this Customer was first recorded on CIDB.
+ex_email,array<string>,list of former email (exclude current email number)
+ex_cell_ph_nbr,array<string>,list of former phone number (exclude current phone number)
+c_add_cty,string,country in the current address
+c_add_province,string,province of the current address
+c_add_district_code,string,district code of the current address
+c_add_district_nm,string,district name of the current address
+c_add_ward_code,string,current address ward
+c_add_ward_nm,string,current address ward name
+c_add_str,string,current address street
+c_add_full,string,"current full address, concatenate detailed address"
+r_add_cty,string,registered address country
+r_add_province,string,registered address province
+r_add_district_code,string,registered address district code
+r_add_district_nm,string,registered address district name
+r_add_ward_code,string,registered address ward code
+r_add_ward_nm,string,registered address ward name
+r_add_str,string,registered address street
+r_add_full,string,"registered full address, concatenate detailed address"
+tax_code,string,tax code of customer
+gso_code,string,Tên c?: gso_idy_code. industry code based on GSO list
+idy_code,string,industry code
+rgst_id,string,bussiness number
+cst_status,string,customer status
+customer_seg,string,customer segment on T24 system
+ast_clss,string,asset class on T24 system
+pst_code,"map<string,string>",postal code
+pyrl_co,string,payroll company (retail)
+fax,string,customer fax no
+webpage,string,customer website
+charter,string,charter capital
+residence_st,"map<string,string>",rsdnc_st
+residence_tp,"map<string,string>",rsdnc_tp
+mnemonic,string,mnemonic
+rltnp_agnt,string,relationship agent
+tx,"map<string,string>",Any text note
+prim_br_id,string,The unique identifier of the Branch designated as having primary responsibility for the Customer.
+br_code,string,Chi nhánh m? Customer code
+sale_ac,string,Tên c?: rltnp_ofcr_empe_id
+bnk_ac_ofcr,string,account officer (sale name)
+unq_id_src_stm,string,customer code
+ds_src_stm_id,string,T24
+ds_rec_st,int,"0: Record inactive (deleted)
+1: Record active (not deleted)"
+ds_ins_dt,string,"Date when the record is created in Curated
+Note !! The date value is at timezone UTC+7"
+ds_upd_dt,string,"Date when the record is updated in Curated
+Note !! The date value is at timezone UTC+7"
+ds_etl_time,timestamp,ds etl time
+ds_change_type,string,"The ds_change_type value is based upon the target table in Curated (or Insights):
+INSERT - new record created in the target table
+UPDATE - existing record is being updated to target table
+DELETE - existing record is being deleted (soft) from target table"
+eco_sector,string,"economic sectors such as: FMCG, real estate, etc"
+loyalty_type,string,"Loyal ranks of BB customers (Business, Legacy, Diamond)"
+loyalty_date,timestamp,The date when the customer is rated at current loyalty type
+crm_account_id,string,CRM account id
+crm_account_type_name,string,crm account type name
+key_account_group,string,key account group
+key_account_sector,string,key account sector
+sales_owner_hr_id,string,sales owner hr id
+sales_owner_username,string,sales owner username
+sales_owner_name,string,sales owner name
+cic_sector,string,cic sector
+cic_industry,string,cic industry

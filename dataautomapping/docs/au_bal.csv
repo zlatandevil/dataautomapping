@@ -1,0 +1,43 @@
+fields,datatype,description
+AU_ID,String,Unique ID of contract (PK) which hashing by Techcombank's rule.
+SRO_CODE,String,The identifier of the Scenario that applies to the data (ACTUAL: System; MANUAL: Manual Adjustment).
+SRO_ID,BIGINT,lookup CV with cl_code = ‘ACTUAL'
+SRC_DATA_TP,String,Source Data Type
+UOM_ID,String,The unique identifier of the Currency in which the Closing Value was originally measured. (VND; USD)
+NET_AMT_FCY,NUMBER,"The Accounting Unit Balance amount fcy for the Measurement Period, after all adjustments have been applied."
+SRC_STM_ID,String,"The application or system from which the information last used to update the entity instance was populated. For example: T24_ECB, TCBS."
+EXG_RATE_ORIG_CCY,NUMBER,Exchange rate
+NET_AMT_LCY,NUMBER,"The Accounting Unit Balance amount lcy for the Measurement Period, after all adjustments have been applied."
+CR_MVMT_AMT_FCY,NUMBER,The credit movement amount fcy.
+CR_MVMT_AMT_LCY,NUMBER,The credit movement amount lcy.
+DR_MVMT_AMT_FCY,NUMBER,The debit movement amount fcy.
+DR_MVMT_AMT_LCY,NUMBER,The debit movement amount lcy.
+AU_TP_CODE,String,"Type of amount.
+cl_code cl_nm
+ACC_INT_PAYB 	Accrued Interest (Payable)
+ACC_INT_REIV 	Accrued Interest (Receivable)
+CONTRA_BAL 	Contra Balance
+CONTRA_BAL_BL 	Contra balance bl
+CRD_LMT 	Limit of Card
+FEE_REIV 	Fee Receivable
+INDUE_INT_BAL 	Indue Interesst Balance
+INDUE_PRIN_BAL 	Indue Principal Balance
+INDUE_PRIN_BAL_DEBIT 	Indue Principal Balance Debit
+ORG_PNP_BAL 	Original Principal Balance
+PENLT_BAL 	Penalty Balance
+PL_BAL 	SBV GL Balance
+PNL_AMT 	Profit and Loss Amount
+PST_DUE_CHRG 	Past Due Charge
+PST_DUE_INT 	Past Due Interest
+PST_DUE_PRIN 	Past Due Principal
+SBV_GL_BAL 	SBV GL Balance
+SBV_GL_CLS_BAL 	SBV GL Closing Balance
+SBV_GL_OPN_BAL 	SBV GL Opening Balance
+TOT_INT_OUTS 	Total Interest Outstanding
+TOT_PRIN_OUTS 	Total Principal Outstanding"
+SBV_GL_CODE_ID,String,SBV GL code
+AR_SRC_STM,String,"Source system of contract (T24_AC, T24_LD, T24_PD, T24_MM, ..., TCBS_CDBL)."
+OU_ID,String,IP_ID of Branch which hashing by Techcombank's rule
+OU_CODE,String,Branch code (VNxxx)
+UNQ_ID_SRC_STM,String,Contract id
+PPN_DT,DATE,Partition Date: yyyy-mm-dd.

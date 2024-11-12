@@ -1,0 +1,7 @@
+table,description
+"""tcb-prod-curated"".organization_gra","To cover information of organization customers.  
+ORG  information from T24 module (T24_CUSTOMER)
+ORG are identified based on T24_sector.bizline_tcb <> 'RETAIL'
+Note with sector code = 4001 due to policy changes from time to time, sometimes 4001 is still considered for ORG, currently 4001 is considered for IDV"
+,
+,

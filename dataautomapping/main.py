@@ -6,14 +6,14 @@ from vertexai.generative_models import FunctionDeclaration, GenerativeModel, Par
 
 BIGQUERY_DATASET_ID = "thelook_ecommerce"
 
-sql_query_tool = Tool(
-    function_declarations=[
-        list_datasets_func,
-        list_tables_func,
-        get_table_func,
-        sql_query_func,
-    ],
-)
+# sql_query_tool = Tool(
+#     function_declarations=[
+#         list_datasets_func,
+#         list_tables_func,
+#         get_table_func,
+#         sql_query_func,
+#     ],
+# )
 
 model = GenerativeModel(
     "gemini-1.5-pro",

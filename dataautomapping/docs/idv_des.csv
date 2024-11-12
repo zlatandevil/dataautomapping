@@ -1,0 +1,6 @@
+table,description
+"""tcb-prod-curated"".individual_gra_ds1","To cover information of retail customers.  
+Individual are identified based  t24_sector bizline_tcb ='RETAIL'
+Sector 4001 is classified as Retail ( Confirmed by 2 HODs Fwd_ Segment 4001 - Treatment in Data Infra.msg)"
+,
+,

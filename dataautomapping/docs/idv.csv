@@ -1,0 +1,72 @@
+fields,datatype,description
+individual_id,string,The unique identifier assigned to an Individual.
+ip_id,string,The unique identifier assigned to an Involved Party.
+unq_id_src_stm,string,The unique identifier in source system
+bank_account_officer,string,account officer
+army_identity_number,string,The number displayed on an Army identity card.
+asset_class,string,Asset Class
+birth_date,date,Specifies the date on which the individual was born.
+biz_line,string,"biz line, lookup from t24 sector"
+comment,string,Customer's description retrieved from T24 system
+customer_segment,string,customer segment on T24 system
+customer_status,string,customer status
+ekyc_flag,string,eKYC Flag Customer Mobile Profile
+customer_full_address,string,"registered full address, concatenate detailed address"
+customer_consent_flag,string,"consent flag indicates whether a customer has given a consent for the communication/marketing purpose. users who agreed with TCB policy, agreed that TCB can use provided data (as per Decree 13/Governance about Customer privacy data, we only send marketing communication to consent customer)"
+joining_date,date,First date which customer contact with bank
+full_ekyc_flag,string,"Customer have full eKYC or eKYC only
+Full eKYC: Customers upgrade the account at counter"
+gender,string,The unique identifier of the Gender of the Individual.
+identity_card,string,The number displayed on an identity card.
+citizenid_x_passport,string,"The number displayed on an identity card or passport, which is used to uniquely identify the Individual."
+identity_issue_date,date,The date when identity card has been issued
+identity_issue_place,string,The place where identity card has been issued
+income_range,string,Income range which is identified on T24 system
+employment_status,string,employment_status Customer Mobile Profile
+marital_status,string,The unique identifier of the Individual Marital Status Type.
+idv_name_eng,string,Individual name in English
+idv_name_vie,string,individual name in Vietnamese
+mnemonic,string,"Tcb sub branch where create user of customer in system , converting from bnk_br_code"
+mobile_user_name,array<string>,User name in Mobile app
+country_residence,string,The unique identifier of the Country of Residence.
+occupation,string,current occupation/job
+passport_number,string,The number displayed on an passport.
+payroll_company,string,payroll company (retail)
+priority_program,string,pbc program (retail - VIP Program)
+portfolio_pbc,string,portfolio (retail - storing PRM Block code who managing RBG priority customer)
+portfolio_status,string,Portfolio Status
+postal_code,"map<string,string>",postal code
+ex_identity_number,array<string>,List of former identity number (exclude current idechtr_Pbcntity number)
+ex_passport_number,array<string>,List of former passport number (exclude current passport number)
+opening_branch,string,opening branch
+opening_branch_id,string,opening branch id
+priority_branch,string,Priority branch
+priority_class,string,priority class (VIP class)
+priority_end_date,date,expire date of priority class
+priority_start_date,date,effective date of priority class
+rm_tcb_code,string,The Relationship Manager who serves Techcombank customer
+opening_sale_id,string,RM id opening customer
+sector_code,bigint,sector of customer ( IDV: sector from 4000 to 4999)
+tax_code,"map<string,string>",tax code of individual customer
+text,"map<string,string>",text
+winlife_flag,string,Winlife Customer or not
+work_position,string,"current work position
+Job_title
+	
+Job_desc
+
+1	NHAN VIEN
+2	TRUONG PHONG/QUAN LY CAP TRUNG
+3	GIAM DOC/QUAN LY CAP CAO
+4	CHU TICH/PHO CHU TICH/THANH VIEN HDQT
+5	KHAC
+8	MISSING JOB.TITLE - RECORD-8"
+ds_src_stm_id,string,Source system identifier
+ds_etl_time,timestamp,ETL time
+ds_ins_dt,string,Insert date
+ds_upd_dt,string,Update date
+ds_rec_st,int,"Record status (0: inactive, 1: active)"
+ds_change_type,string,"Change type (Insert, update, delete)"
+visa_no,array<string>,Visa number
+tcbs_flag,string,TCBS flag
+mkt_segment,string,Segment defined by marketing
