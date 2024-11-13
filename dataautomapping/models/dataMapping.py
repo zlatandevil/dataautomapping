@@ -1,8 +1,11 @@
 import os
 import time
 import google.generativeai as genai
+from dotenv import load_dotenv
 
-genai.configure(api_key='AIzaSyBHOARN4j3c-yDp3DjhHjHT04JYLqZSBZY')
+load_dotenv()
+
+genai.configure(api_key="AIzaSyCn9L6fMD6ORt0b21mmVXBH0lQnFaYH7i8")
 
 def upload_to_gemini(path, mime_type=None):
   """Uploads the given file to Gemini.
@@ -40,80 +43,105 @@ generation_config = {
   "temperature": 1,
   "top_p": 0.95,
   "top_k": 40,
-  "max_output_tokens": 1000,
+  "max_output_tokens": 8192,
   "response_mime_type": "text/plain",
 }
 
-path = '/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping/docs'
-
+model = genai.GenerativeModel(
+  model_name="gemini-1.5-pro-002",
+  generation_config=generation_config,
+  system_instruction="formal tone\n",
+)
+path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
 # TODO Make these files available on the local file system
 # You may need to update the file paths
 files = [
-  upload_to_gemini(f"{path}/{i}", mime_type="text/csv") for i in os.listdir(path) if 'csv' in i]
+  upload_to_gemini(f"{path}/docs/idv_des.csv", mime_type="text/csv"),
+  upload_to_gemini(f"{path}/docs/idv.csv", mime_type="text/csv"),
+  upload_to_gemini(f"{path}/docs/org_des.csv", mime_type="text/csv"),
+]
 
 # Some files have a processing delay. Wait for them to be ready.
 wait_for_files_active(files)
 
-def init():
-    model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash",
-    generation_config=generation_config,
-    system_instruction="formal tone\n",
-  )
-    chat_session = model.start_chat(
+def scenario1(files):
+  chat_session = model.start_chat(
     history=[
-        {
+      {
         "role": "user",
         "parts": [
-            "Your name is MapMaster.\nYou are an agent for Business Analyst to make BA mapping. You know SQL, Python. You guide people to join and make transformation between tables and fields of tables.",
+          "Your name is MapMaster.\nYou are an agent for Business Analyst to make BA mapping. You know SQL, Python. You guide people to join and make transformation between tables and fields of tables.",
         ],
-        },
-        {
+      },
+      {
         "role": "model",
         "parts": [
-            "Yes. I am MapMaster, at your service. As your Business Analyst mapping agent, I possess expertise in SQL and Python, allowing me to guide you through the intricate process of joining and transforming data between tables and fields. \n\nPlease provide me with the following information so I can assist you effectively:\n\n* **What are the source tables and their corresponding fields?**  \n* **What is the desired target table and its structure?**  \n* **What are the specific join conditions?**  \n* **What transformations are required (e.g., calculations, aggregations, data conversions)?** \n\nOnce I have a clear understanding of your needs, I can provide you with:\n\n* **Step-by-step instructions on how to perform the joins and transformations.**\n* **SQL queries or Python code snippets to implement the mapping logic.**\n* **Visual diagrams representing the data flow and transformations.**\n\nLet's embark on this data mapping journey together. I am here to ensure a smooth and efficient process, ultimately delivering the insights you need from your data. \n",
+          "Yes. I am MapMaster, at your service. As your Business Analyst mapping agent, I possess expertise in SQL and Python, allowing me to guide you through the intricate process of joining and transforming data between tables and fields. ",
         ],
-        },
-        {
-        "role": "user",
-        "parts": files
-        },
-        {
-        "role": "model",
-        "parts": [
-            "Understood. I have saved all the information you provided about the structure and descriptions of each table. I will use this information to guide you in your data mapping needs.  \n\nNow, tell me what you want to achieve with your mapping. What are the final tables or reports you need to generate? What data needs to be joined together from these different files?\n\nFor example, you could say:\n\n* \"I want to create a report showing all customer information, their total balance in all products, and their latest transaction.\"\n* \"I need to join the 'crm_list' table with the 'customer' table to create a table with all customer details and their lead information.\"\n* \"I need to create a table that combines the 'eod_fund', 'eod_lending', and 'eod_bond' tables to get a consolidated view of customer balances across all products.\"\n\nThe more specific you are about your goals, the better I can guide you and offer tailored solutions. \n",
-        ],
-        },
-        {
+      },
+      {
         "role": "user",
         "parts": [
-            "now, whenever i ask u a question with 'DMP2' in beginning like 'DMP2 hello', 'DMP2 gudbye'. I want you help me to deliver Data Mapping requirements  to Data Engineer for them to develope Data Pipeline. My question would have format 'DMP2 {requirement}'. Return to me:\n\nYour answer is in format that i can print beautifully in Markdown. Your answer would have two parts. Each part would contains a short explanation and a table with comprehensive details.\n\nOne is the CTE declaration, that contains three part: Source Table, Alias, Transformation:\n//Requirements:\n--> a CTE to select proper fields and join between existing tables\n--> Output fields in target tables can be select directly or only need transform a bit from CTE\n//\n\nTarget Data Mapping, which contains four fields: field_name, field_type, transformation and description\n--> field_name: name of field on target table\n--> field_type: datatype of field\n--> transformation: a SQL transformation, which demonstrate how we can get target field by querying from existing fields from pre-defined CTE.\n--> description: mnemonic of fields",
+          "Whenever I ask a question beginning with \"DMP2\", you want to deliver Data Mapping requirements to a Data Engineer for developing a Data Pipeline. The question will follow the format \"DMP2 {requirement}\".  Your mission would be create a table which contains all information that can answer the demand in requirements. The response will be structured in Markdown and include two sections: Pre-filter Declaration and Target Data Mapping.\n\n# **1. Pre-filter Declaration:**\nExplanation: This section outlines the creation of Common Table Expressions (CTEs) necessary for data transformation. Each CTE will be detailed with its source tables, alias, and transformation logic.\n\nTable Structure: (3 columns: Input Table, Alias, Transformation)\n- Input Table: List of input tables. They can be existing tables or pre-defined CTEs\n- Alias: Usually a short lowercase acronym, max 5 characters\n- Transformation: preferred SQL, but you can use Python or another language to demonstrate how you can get your dataframe.\n\nRequirements:\n- Alias can be joined to others to get target dataframe\n- All target table information can be selected or transformed from final data frame.\n\n# **2. Target Data Mapping:**\n\nExplanation: This section outlines how you select information from prior CTEs in part 1\n\nTable Structure: (4 columns: ID, Field name, Datatype, Transformation, Description)\n",
         ],
-        },
-        {
+      },
+      {
         "role": "model",
         "parts": [
-            "Understood. I am ready to assist you with your Data Mapping requirements.  Whenever you start a request with \"DMP2\", I will generate a response with a CTE declaration and target data mapping details in a beautifully formatted Markdown table, as you specified.\n\nLet's get started! Ask me your first \"DMP2\" question. I'm eager to help you translate your data mapping needs into clear and actionable instructions for your Data Engineers. \n",
+          "Understood.  I will respond to queries prefixed with \"DMP2\" by providing data mapping specifications suitable for a data engineer constructing a data pipeline.  I will adhere to the prescribed markdown format, including \"Pre-filter Declaration\" and \"Target Data Mapping\" sections.\n\nPlease provide your \"DMP2\" requests.\n",
         ],
-        },
-        {
+      },
+      {
         "role": "user",
         "parts": [
-            "DMP2 aggregate information of customer\n",
+          "Whenever I ask a question beginning with \"DAC \", you want to deliver data availability check. If there is anything missing in existing tables, return with available information and what you can not find in given tables.\n\n# **1. What We Have:**\n\nExplanation: List out all information you can look up. Return a table with 3 columns: ID (Incremental Int), Table Name, Field Name (in that table) and Description (in that table). Result is ordered by value of table name.\n\n# **2. What We Missing:**\n\nList out in bullet points all information which you can not look up.\n",
         ],
-        },
-        {
+      },
+      {
         "role": "model",
         "parts": [
-            "## DMP2: Aggregate Customer Information\n\nThis mapping aims to consolidate information about each customer, drawing data from various tables to create a comprehensive customer profile.\n\n### 1. CTE Declaration\n\n```sql\n--Requirements:\n--> a CTE to select proper fields and join between existing tables\n--> Output fields in target tables can be select directly or only need transform a bit from CTE\n//\n\nWITH CustomerProfile AS (\n    SELECT \n        c.customer_id,\n        c.name_vn,\n        c.name_en,\n        c.gender,\n        c.birth_date,\n        ca.c_add_full,\n        ca.r_add_full,\n        cd.cus_mar_st_tp_id,\n        cd.cus_idy_cl_id,\n        cd.cus_email,\n        cd.cus_mobile,\n        cd.c_add_cty,\n        cd.c_add_province,\n        cd.c_add_district_nm,\n        cd.c_add_ward_nm,\n        cd.c_add_str,\n        cd.r_add_cty,\n        cd.r_add_province,\n        cd.r_add_district_nm,\n        cd.r_add_ward_nm,\n        cd.r_add_str,\n        cd.identity_card,\n        cd.Identity_issu_dt,\n        cd.Identity_issu_plc,\n        cd.Frst_ctc_dt,\n        cd.cst_st,\n        cd.cst_seg,\n        cd.inc_rge,\n        cd.ocp,\n        cd.wrk_pos,\n        cd.ast_clss,\n        cd.pyrl_co,\n        cd.c_add_full,\n        cl.lead_created_date,\n        cl.campaign_name,\n        cl.source,\n        SUM(t.transaction_amt) AS total_transaction_amount\n    FROM customer AS c\n    LEFT JOIN customer_address AS ca ON c.customer_id = ca.customer_id\n    LEFT JOIN customer_detail AS cd ON c.customer_id = cd.cus_id\n    LEFT JOIN crm_list AS cl ON c.customer_id = cl.cst_code\n    LEFT JOIN transaction AS t ON c.customer_id = t.customer_id\n    GROUP BY \n        c.customer_id,\n        c.name_vn,\n        c.name_en,\n        c.gender,\n        c.birth_date,\n        ca.c_add_full,\n        ca.r_add_full,\n        cd.cus_mar_st_tp_id,\n        cd.cus_idy_cl_id,\n        cd.cus_email,\n        cd.cus_mobile,\n        cd.c_add_cty,\n        cd.c_add_province,\n        cd.c_add_district_nm,\n        cd.c_add_ward_nm,\n        cd.c_add_str,\n        cd.r_add_cty,\n        cd.r_add_province,\n        cd.r_add_district_nm,\n        cd.r_add_ward_nm,\n        cd.r_add_str,\n        cd.identity_card,\n        cd.Identity_issu_dt,\n        cd.Identity_issu_plc,\n        cd.Frst_ctc_dt,\n        cd.cst_st,\n        cd.cst_seg,\n        cd.inc_rge,\n        cd.ocp,\n        cd.wrk_pos,\n        cd.ast_clss,\n        cd.pyrl_co,\n        cd.c_add_full,\n        cl.lead_created_date,\n        cl.campaign_name,\n        cl.source\n)\n\n```\n\n### 2. Target Data Mapping\n\n| field_name           | field_type  | transformation                                            | description                                         |\n|-----------------------|-------------|-------------------------------------------------------------|-----------------------------------------------------|\n| customer_id          | string       | CustomerProfile.customer_id                                 | Customer ID                                      |\n| name_vn              | string       | CustomerProfile.name_vn                                     | Customer Name in Vietnamese                        |\n| name_en              | string       | CustomerProfile.name_en                                     | Customer Name in English",
+          "Acknowledged.  For any question starting with \"DAC \", I will perform a data availability check and respond with two sections: \"What We Have\" and \"What We Missing,\" following the prescribed table structure and bullet point format. I will list available information ordered by table name and clearly identify any missing data points.\n",
         ],
-        },
+      },
+      {
+        "role": "user",
+        "parts": [
+          "Whenever I ask a question beginning with \"ADC\" (Add Data Catalog), that's when I give you information of table. That include data field name, data type and description of that table. Remmember it to return me when I ask question the \"DAC%\" and \"DMP2%\" above\n",
+        ],
+      },
+      {
+        "role": "model",
+        "parts": [
+          "Understood.  Any question prefixed with \"ADC\" will be interpreted as an instruction to add information to my internal data catalog.  I will store the provided table details (field name, data type, and description) and utilize this information when responding to subsequent \"DAC \" and \"DMP2\" queries.\n",
+        ],
+      },
+      {
+        "role": "user",
+        "parts": [
+          "Whenever I ask a question beginning with \"A-ERD\" (Add Entity Relationship Diagram), that's when I give you information of relationship between tables. You would use it to return CTEs transformation in DMP2 tasks.\n",
+        ],
+      },
+      {
+        "role": "model",
+        "parts": [
+          "Understood.  Prefixing a question with \"A-ERD\" will signal to me that you are providing information about table relationships. I will store this information internally and use it to optimize and enhance the CTE transformations generated in response to \"DMP2\" requests. This will allow for more accurate and efficient data mapping by leveraging the defined relationships between tables.\n",
+        ],
+      },
+      {
+        "role": "user",
+        "parts": [
+          files[0],
+          files[1],
+          files[2],
+          "DMP2 information of organization representative\n",
+        ],
+      },
+      {
+        "role": "model",
+        "parts": [
+          "```markdown\n# DMP2 information of organization representative\n\n## 1. Pre-filter Declaration:\n\n| Input Table                                   | Alias | Transformation                                                                                                                                                                                                                                        |\n|-----------------------------------------------|-------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|\n| `tcb-prod-curated.organization_gra`           | org   | SELECT * FROM `tcb-prod-curated.organization_gra`                                                                                                                                                                                                   |\n| `tcb-prod-curated.individual_gra_ds1`        | idv   | SELECT * FROM `tcb-prod-curated.individual_gra_ds1`                                                                                                                                                                                                  |\n\n\n## 2. Target Data Mapping:\n\n| ID | Field name          | Datatype | Transformation                                                | Description                                                            |\n|----|----------------------|----------|------------------------------------------------------------|------------------------------------------------------------------------|\n| 1  | org_id              | STRING   | org.org_id                                                  | The unique identifier assigned to an Organization.                   |\n| 2  | representative_id   | STRING   | idv.individual_id                                          | The unique identifier assigned to an Individual representative.      |\n| 3  | representative_name | STRING   | idv.idv_name_vie                                            | Vietnamese name of the representative.                             |\n| 4  | representative_type | STRING   |  (requires further clarification on source and logic)       | Type of representative (e.g., legal representative, authorized signatory). It's currently unclear where this information resides.  |\n| ... | ...                   | ...      | ...                                                        | ...                                                                    |\n\n```\n\n**Explanation and Caveats:**\n\n* **Missing Information:**  The provided CSV files do not specify how `organization_gra` and `individual_gra_ds1` are linked.  Specifically, it is unclear how to identify which individuals are representatives of which organizations. The transformation for `representative_type` also requires more information.  To complete this mapping, details on the relationship between organizations and their representatives are required.  Examples of linking fields could include a dedicated representative ID within the organization table or a separate joining table.\n* **Assumptions:**  The above mapping assumes that `individual_id` in `individual_gra_ds1` can be used as `representative_id`.  This assumption may not be accurate without further clarification.  The `representative_type` field has been included as a placeholder, highlighting the missing information.\n* **Next Steps:**  To proceed, please provide the following:\n    * How are organizations and their representatives linked in the data?  Are there any specific fields that connect these two entities?\n    * Where is the information for `representative_type` stored? What are the possible values for this field?\n    * Please provide the schema or data dictionary for the involved tables if available.  This will help to identify relevant fields and ensure accurate mapping.\n\n\n\nOnce the missing information is provided, the mapping can be completed.\n",
+        ],
+      },
     ]
-    )
-    return chat_session
-
-def mapping(brd):
-    response = chat_session.send_message('DMP2' + brd)
-    return response.text
-
-mapping('Make a table with information about total amount in and out of customer')
+  )
+  return chat_session

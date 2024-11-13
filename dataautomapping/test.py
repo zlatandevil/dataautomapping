@@ -1,34 +1,27 @@
 import markdown
+
 output = r"""
-## DMP2: Customer Balance Table 
+```markdown
+# DMP2 information of organization representative
 
-This mapping will create a table storing balance information for every individual customer.
+## 1. Pre-filter Declaration:
 
-###  1. CTE Declarations 
-
-| Source Table | Alias | Transformation |
+| Input Table | Alias | Transformation |
 |---|---|---|
-| """tcb-prod-curated"".individual_gra_ds1 | idv | SELECT * FROM """tcb-prod-curated"".individual_gra_ds1 |
-| """tcb-prod-golden_curated"".au_bal | au | SELECT * FROM """tcb-prod-golden_curated"".au_bal |
+| `"""tcb-prod-curated"".organization_gra` | ORGA | SELECT * FROM `"""tcb-prod-curated"".organization_gra` |
+| `"""tcb-prod-curated"".individual_gra_ds1` | IDVA | SELECT * FROM `"""tcb-prod-curated"".individual_gra_ds1` |
 
-### 2. Target Data Mapping
 
-| field_name | field_type | transformation | description |
-|---|---|---|---|
-| customer_id | STRING | idv.individual_id | Customer ID |
-| balance | DECIMAL(38,6) | au.au_bal_value | Customer balance |
-| balance_date | DATE | au.balance_date | Date of the balance |
-| balance_type | STRING | au.balance_type | Type of balance (e.g., 'Balance', 'Max', 'Min') |
+## 2. Target Data Mapping:
 
-**Explanation:**
+| ID | Field name | Datatype | Transformation | Description |
+|---|---|---|---|---|
+| 1 | org_id | string | ORGA.org_id | The unique identifier assigned to an Organization. |
+| 2 | representative_id | string | ORGA.legal_representative_id |  The unique identifier of the legal representative of the organization. |
+| 3 | representative_name | string | IDVA.idv_name_eng  WHERE IDVA.individual_id = ORGA.legal_representative_id | Name of the legal representative (Looked up from IDVA table using representative_id) |
+| 4 | representative_phone | string | IDVA.mobile_user_name[0] WHERE IDVA.individual_id = ORGA.legal_representative_id | Phone number of the legal representative (Looked up from IDVA table using representative_id) -  Assumes first element in array is primary contact.  Further clarification needed for multiple phone numbers. | 
+| 5 | representative_email | string |  Not Available | Email address of the legal representative. This information is not present in the provided data.  |
 
-This mapping joins the `individual_gra_ds1` and `au_bal` tables on the customer ID (`individual_id`). The resulting table will include the customer ID, balance, balance date, and balance type for each customer. 
 
-**Note:**
-
-* This mapping assumes that the `au_bal` table contains balance information for all customers. If this is not the case, you may need to add a filter to the CTE to select only balances related to individual customers. 
-* The `balance_type` field could be further transformed to provide a more user-friendly representation of the balance type. 
-
-This mapping provides a basic structure for storing customer balance information. You can adjust the fields, transformations, and filters to meet your specific requirements. 
-"""
+```"""
 markdown.markdown(output)

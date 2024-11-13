@@ -1,246 +1,52 @@
 import time
-
-from google.cloud import bigquery
 import streamlit as st
-from vertexai.generative_models import FunctionDeclaration, GenerativeModel, Part, Tool
+from models.dataMapping import scenario1 as sc1
+from models.dataMapping import upload_to_gemini, wait_for_files_active
+from models import talkwithGemini as sql_
 
-BIGQUERY_DATASET_ID = "thelook_ecommerce"
-
-# sql_query_tool = Tool(
-#     function_declarations=[
-#         list_datasets_func,
-#         list_tables_func,
-#         get_table_func,
-#         sql_query_func,
-#     ],
-# )
-
-model = GenerativeModel(
-    "gemini-1.5-pro",
-    generation_config={"temperature": 0},
-    tools=[sql_query_tool],
-)
-
+path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
 st.set_page_config(
     page_title="SQL Talk with BigQuery",
-    page_icon="vertex-ai.png",
+    page_icon=f"{path}/images/icon.png",
     layout="wide",
 )
 
 col1, col2 = st.columns([8, 1])
-with col1:
-    st.title("SQL Talk with BigQuery")
-with col2:
-    st.image("vertex-ai.png")
+st.sidebar.image(f"{path}/images/icon.png")
+st.sidebar.markdown("""
+    **Greetings, my FuHo brother!**
 
-st.subheader("Powered by Function Calling in Gemini")
-
-st.markdown(
-    "[Source Code](https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/function-calling/sql-talk-app/)   •   [Documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/multimodal/function-calling)   •   [Codelab](https://codelabs.developers.google.com/codelabs/gemini-function-calling)   •   [Sample Notebook](https://github.com/GoogleCloudPlatform/generative-ai/blob/main/gemini/function-calling/intro_function_calling.ipynb)"
+    I'm your trusty Data Mapping AI assistant, here to guide you through the intricate world of data transformation.
+    """
 )
 
-with st.expander("Sample prompts", expanded=True):
-    st.write(
-        """
-        - What kind of information is in this database?
-        - What percentage of orders are returned?
-        - How is inventory distributed across our regional distribution centers?
-        - Do customers typically place more than one order?
-        - Which product categories have the highest profit margins?
-    """
-    )
+with col1:
+    st.title("Mapping Automation")
+    # st.image(f"{path}/images/icon.png")
 
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+with st.expander("Upload your BRD file to start!", False):
+    uploaded_file = st.file_uploader("Browse")
+# Check availability
+    if uploaded_file is not None:
+        # Enable the button if a file is uploaded
+        if st.button("Check Availability"):
+            st.write("Button clicked!")
+    else:
+        # Show a disabled button if no file is uploaded
+        st.button("Check Availability", disabled=True)
+        st.write("Please upload a file to enable the button.")
 
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"].replace("$", r"\$"))  # noqa: W605
-        try:
-            with st.expander("Function calls, parameters, and responses"):
-                st.markdown(message["backend_details"])
-        except KeyError:
-            pass
+# Render Automapping
 
-if prompt := st.chat_input("Ask me about information in the database..."):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
+files = [
+  upload_to_gemini(f"{path}/docs/idv_des.csv", mime_type="text/csv"),
+  upload_to_gemini(f"{path}/docs/idv.csv", mime_type="text/csv"),
+  upload_to_gemini(f"{path}/docs/org_des.csv", mime_type="text/csv"),
+]
 
-    with st.chat_message("assistant"):
-        message_placeholder = st.empty()
-        full_response = ""
-        chat = model.start_chat()
-        client = bigquery.Client()
+# Some files have a processing delay. Wait for them to be ready.
+wait_for_files_active(files)
 
-        prompt += """
-            Please give a concise, high-level summary followed by detail in
-            plain language about where the information in your response is
-            coming from in the database. Only use information that you learn
-            from BigQuery, do not make up information.
-            """
+aa = sc1(files)
 
-        try:
-            response = chat.send_message(prompt)
-            response = response.candidates[0].content.parts[0]
-
-            print(response)
-
-            api_requests_and_responses = []
-            backend_details = ""
-
-            function_calling_in_process = True
-            while function_calling_in_process:
-                try:
-                    params = {}
-                    for key, value in response.function_call.args.items():
-                        params[key] = value
-
-                    print(response.function_call.name)
-                    print(params)
-
-                    if response.function_call.name == "list_datasets":
-                        api_response = client.list_datasets()
-                        api_response = BIGQUERY_DATASET_ID
-                        api_requests_and_responses.append(
-                            [response.function_call.name, params, api_response]
-                        )
-
-                    if response.function_call.name == "list_tables":
-                        api_response = client.list_tables(params["dataset_id"])
-                        api_response = str([table.table_id for table in api_response])
-                        api_requests_and_responses.append(
-                            [response.function_call.name, params, api_response]
-                        )
-
-                    if response.function_call.name == "get_table":
-                        api_response = client.get_table(params["table_id"])
-                        api_response = api_response.to_api_repr()
-                        api_requests_and_responses.append(
-                            [
-                                response.function_call.name,
-                                params,
-                                [
-                                    str(api_response.get("description", "")),
-                                    str(
-                                        [
-                                            column["name"]
-                                            for column in api_response["schema"][
-                                                "fields"
-                                            ]
-                                        ]
-                                    ),
-                                ],
-                            ]
-                        )
-                        api_response = str(api_response)
-
-                    if response.function_call.name == "sql_query":
-                        job_config = bigquery.QueryJobConfig(
-                            maximum_bytes_billed=100000000
-                        )  # Data limit per query job
-                        try:
-                            cleaned_query = (
-                                params["query"]
-                                .replace("\\n", " ")
-                                .replace("\n", "")
-                                .replace("\\", "")
-                            )
-                            query_job = client.query(
-                                cleaned_query, job_config=job_config
-                            )
-                            api_response = query_job.result()
-                            api_response = str([dict(row) for row in api_response])
-                            api_response = api_response.replace("\\", "").replace(
-                                "\n", ""
-                            )
-                            api_requests_and_responses.append(
-                                [response.function_call.name, params, api_response]
-                            )
-                        except Exception as e:
-                            error_message = f"""
-                            We're having trouble running this SQL query. This
-                            could be due to an invalid query or the structure of
-                            the data. Try rephrasing your question to help the
-                            model generate a valid query. Details:
-
-                            {str(e)}"""
-                            st.error(error_message)
-                            api_response = error_message
-                            api_requests_and_responses.append(
-                                [response.function_call.name, params, api_response]
-                            )
-                            st.session_state.messages.append(
-                                {
-                                    "role": "assistant",
-                                    "content": error_message,
-                                }
-                            )
-
-                    print(api_response)
-
-                    response = chat.send_message(
-                        Part.from_function_response(
-                            name=response.function_call.name,
-                            response={
-                                "content": api_response,
-                            },
-                        ),
-                    )
-                    response = response.candidates[0].content.parts[0]
-
-                    backend_details += "- Function call:\n"
-                    backend_details += (
-                        "   - Function name: ```"
-                        + str(api_requests_and_responses[-1][0])
-                        + "```"
-                    )
-                    backend_details += "\n\n"
-                    backend_details += (
-                        "   - Function parameters: ```"
-                        + str(api_requests_and_responses[-1][1])
-                        + "```"
-                    )
-                    backend_details += "\n\n"
-                    backend_details += (
-                        "   - API response: ```"
-                        + str(api_requests_and_responses[-1][2])
-                        + "```"
-                    )
-                    backend_details += "\n\n"
-                    with message_placeholder.container():
-                        st.markdown(backend_details)
-
-                except AttributeError:
-                    function_calling_in_process = False
-
-            time.sleep(3)
-
-            full_response = response.text
-            with message_placeholder.container():
-                st.markdown(full_response.replace("$", r"\$"))  # noqa: W605
-                with st.expander("Function calls, parameters, and responses:"):
-                    st.markdown(backend_details)
-
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "content": full_response,
-                    "backend_details": backend_details,
-                }
-            )
-        except Exception as e:
-            print(e)
-            error_message = f"""
-                Something went wrong! We encountered an unexpected error while
-                trying to process your request. Please try rephrasing your
-                question. Details:
-
-                {str(e)}"""
-            st.error(error_message)
-            st.session_state.messages.append(
-                {
-                    "role": "assistant",
-                    "content": error_message,
-                }
-            )
+# Connect Confluence to Publish
