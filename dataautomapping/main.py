@@ -1,7 +1,7 @@
 import time
 import streamlit as st
-from models.dataMapping import scenario1 as sc1
-from models.dataMapping import upload_to_gemini, wait_for_files_active
+# from models.dataMapping import scenario1 as sc1
+# from models.dataMapping import upload_to_gemini, wait_for_files_active
 from models import talkwithGemini as sql_
 
 path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
@@ -38,15 +38,79 @@ with st.expander("Upload your BRD file to start!", False):
 
 # Render Automapping
 
-files = [
-  upload_to_gemini(f"{path}/docs/idv_des.csv", mime_type="text/csv"),
-  upload_to_gemini(f"{path}/docs/idv.csv", mime_type="text/csv"),
-  upload_to_gemini(f"{path}/docs/org_des.csv", mime_type="text/csv"),
-]
 
-# Some files have a processing delay. Wait for them to be ready.
-wait_for_files_active(files)
+# # Some files have a processing delay. Wait for them to be ready.
+# wait_for_files_active(files)
 
-aa = sc1(files)
+# aa = sc1(files)
+def BB(x: str):
+    return (x + 'aaa').upper()
 
-# Connect Confluence to Publish
+if 'chat_history' not in st.session_state:
+    st.session_state.chat_history = []
+
+# Input text box for user input
+
+
+# # Process the input when the user presses Enter
+# if user_input:
+
+#     # Use the BB function to process the input
+#     response = BB(user_input)
+    
+#     # Add the input and response to chat history
+#     st.session_state.chat_history.append({"user": [user_input], "model": [response]})
+#     st.write(response)
+    
+#     # Clear the input after processing
+#     st.rerun()
+
+st.title("Vietnamese Text Processor")
+messages = []
+
+def main():
+    st.title("BB Chatbot")
+    
+    # Initialize chat history
+    if 'messages' not in st.session_state:
+        st.session_state.messages = []
+
+    # Chat input
+    user_input = st.chat_input("Enter your message (type 'end' to stop)")
+
+    if user_input:
+        if user_input.lower() == 'end':
+            st.write("Chat ended. Refresh to start a new chat.")
+        else:
+            # Add user message to chat
+            st.session_state.messages.append({"role": "user", "content": user_input})
+            # Process with BB function and add response
+            response = BB(user_input)
+            st.session_state.messages.append({"role": "assistant", "content": response})
+
+    # Display chat history with edit functionality
+    for idx, message in enumerate(st.session_state.messages):
+        with st.chat_message(message["role"]):
+            if message["role"] == "assistant":
+                # Make the assistant's response editable
+                edited_response = st.text_area(
+                    "Edit response",
+                    value=message["content"],
+                    key=f"edit_{idx}",
+                    label_visibility="collapsed"
+                )
+                # Add update button
+                if st.button("Update", key=f"update_{idx}"):
+                    st.session_state.messages[idx]["content"] = edited_response
+                    st.rerun()
+            else:
+                # Display user message normally
+                st.write(message["content"])
+
+    # Add clear button
+    if st.button("Clear Chat"):
+        st.session_state.messages = []
+        st.rerun()
+
+if __name__ == "__main__":
+    main()

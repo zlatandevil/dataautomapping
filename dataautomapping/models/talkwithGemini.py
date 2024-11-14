@@ -1,17 +1,20 @@
 import google.generativeai as genai
-key = 'AIzaSyBHOARN4j3c-yDp3DjhHjHT04JYLqZSBZY'
-def init():
-    genai.configure(api_key=key)
+import google.generativeai as genai
 
+# Set your API key
+api_key = "YOUR_API_KEY"
+genai.configure(api_key="AIzaSyCn9L6fMD6ORt0b21mmVXBH0lQnFaYH7i8")
 
-    model = genai.GenerativeModel(
-        "gemini-1.5-pro"
-    )
+# Specify the model
+model = genai.GenerativeModel("gemini-1.5-pro")
 
-    return model 
+# Send a message and get the response
+prompt = "Write a Python function to reverse a string."
+response = model.generate_content(prompt=prompt, model=model)
 
-def chatbot(prompt):
-    m = init()
-    response = m.generate_content(prompt)
-    return response.text
+# Extract the text response
+text_response = response.text
+
+# Print the response in Markdown format
+print(text_response)
 

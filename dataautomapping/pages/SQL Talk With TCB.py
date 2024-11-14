@@ -1,7 +1,8 @@
-import streamlit as st
+import google.generativeai as genai
 
-st.set_page_config(
-    page_title = 'SQL Talk'
-)
+def init_model():
+    genai.configure(api_key="AIzaSyCn9L6fMD6ORt0b21mmVXBH0lQnFaYH7i8")
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    return model
 
-st.write('Hello!')
+print(type(init_model()))

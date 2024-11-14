@@ -55,16 +55,18 @@ model = genai.GenerativeModel(
 path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
 # TODO Make these files available on the local file system
 # You may need to update the file paths
-files = [
+def sample():
+  files = [
   upload_to_gemini(f"{path}/docs/idv_des.csv", mime_type="text/csv"),
   upload_to_gemini(f"{path}/docs/idv.csv", mime_type="text/csv"),
   upload_to_gemini(f"{path}/docs/org_des.csv", mime_type="text/csv"),
 ]
 
-# Some files have a processing delay. Wait for them to be ready.
-wait_for_files_active(files)
+  # Some files have a processing delay. Wait for them to be ready.
+  wait_for_files_active(files)
+  return files
 
-def scenario1(files):
+def scenario1(files = sample()):
   chat_session = model.start_chat(
     history=[
       {

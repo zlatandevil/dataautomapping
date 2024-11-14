@@ -58,3 +58,16 @@ sql_query_func = FunctionDeclaration(
         ],
     },
 )
+
+import docx2txt
+
+def word_to_markdown(word_file):
+  text = docx2txt.process(word_file)
+  # Basic conversion to Markdown
+  markdown_text = text.replace('\n', '\n\n')
+  return markdown_text
+
+# Example usage:
+word_file = "my_document.docx"
+markdown_text = word_to_markdown(word_file)
+print(markdown_text)
