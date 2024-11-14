@@ -1,0 +1,28 @@
+Field Name,Data Type,Description,Sample
+ar_id,string,Contract / Arrangement unique identifier. Hash from unq_id_src_stm and src_stm_id,035b18ec-453f-5a07-8ac3-ac9ea089e55a
+unq_id_src_stm,string,The unique contract ID which sync by concat the customer code&product code& automatically order code ,29651182TCBF.2
+ip_id,string,Involve party unique identifier. Hash from invole party unq_id_src_stm and src_stm_id,21dc6e14-59c5-592b-b390-6482ffe69e55
+customer_code,String,The customer code which record in t24 system,37880333
+product_code,String,The product code of the bond which customers are holding and this is combined by bond code & category code,TCFF
+category_code,String,The type of fund which the different characteristics: term of interest amount/flexible trading or not.,
+fund_code,String,The sub-category fund which divides bond into many kinds by issuers.,
+fund_issuer_name,String,The full name of issuer of fund code. This show who issues these fund to the market for customer.,
+eff_date_of_contract,date,The start date of contract which customers buy it for the first time.,10/10/2022
+maturity_date_of_contract,date,The end date of contract which is sold out with eop_bal = 0,11/09/2020
+qty_of_fund,"decimal(38,6)",The quantiy of fund at the report date,9.98
+nav_value,"decimal(38,6)",Unit amount of Fund,20200.5703
+branch_code_of_deal,string,Branch code of deal,IWPC
+direct_sale_ac,string,The customer account generated in T24 system of saler who support directly customer to deposit money into Techcombank,26131313
+direct_sale_id,string,The customer code generated in T24 system of saler who support directly customer to deposit money into Techcombank,30006421
+referral_sale_ac,string,The customer account generated in T24 system of saler who referred to support customer to deposit money into Techcombank,8101936868
+referral_sale_id,string,The customer code generated in T24 system of saler who referred to support customer to deposit money into Techcombank,29599586
+program_code,string,Program code ,IXU
+channel,string,The channel of transaction: Online/Counter…,Online
+app_name,string,The app which transactions are on: TCB Mobile/TCBs,
+ds_src_stm_id,string,Source system-id,TCBS_FUND
+ds_rec_st,int,Record Status,1
+ds_ins_dt,String,Inserted date,26/10/2023
+ds_upd_dt,String,Updated date,26/10/2023
+ds_etl_time,Timestamp,ETL Time,2023-09-30T07:05:27.884
+ds_change_type,String,Record change data type,UPDATE
+ds_partition_date,String,Partition date,28/10/2023

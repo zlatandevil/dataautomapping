@@ -1,73 +1,59 @@
+import time
 import streamlit as st
-import google.generativeai as genai
+# from models.dataMapping import scenario1 as sc1
+# from models.dataMapping import upload_to_gemini, wait_for_files_active
+from models import talkwithGemini as sql_
 
-def init_model():
-    genai.configure(api_key="AIzaSyCn9L6fMD6ORt0b21mmVXBH0lQnFaYH7i8")
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    return model
+def read_uploaded_file(uploaded_file):
+  """Reads the contents of an uploaded file.
 
-def sql_optimize(input_str):
-    # Assuming you already have this function implemented
-    # This is just a placeholder - replace with your actual BB function
-    model = init_model()
-    reply = model.generate_content(f"Optimize this SQL syntax: {input_str}") 
-    return reply.text
+  Args:
+    uploaded_file: The uploaded file object.
 
-def main(title_ = 'Chatbot',
-         ):
-    st.title(title_)
-    # Initialize chat history
-    if 'messages' not in st.session_state:
-        st.session_state.messages = []
-    if 'editing' not in st.session_state:
-        st.session_state.editing = {}
+  Returns:
+    The contents of the file as a string.
+  """
 
-    # Chat input
-    user_input = st.chat_input("Enter your message (type 'end' to stop)")
+  if uploaded_file is not None:
+    # Read the contents of the uploaded file
+    contents = uploaded_file.read().decode('utf-8')
+    return contents
+  else:
+    return None
 
-    if user_input:
-        if user_input.lower() == 'end':
-            st.write("Chat ended. Refresh to start a new chat.")
-        else:
-            # Add user message to chat
-            st.session_state.messages.append({"role": "user", "content": user_input})
-            # Process with BB function and add response
-            response = sql_optimize(user_input)
-            markdown_response = f"""```
-{response}
-```"""
-            st.session_state.messages.append({"role": "assistant", "content": markdown_response})
+path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
+st.set_page_config(
+    page_title="SQL Talk with BigQuery",
+    page_icon=f"{path}/images/icon.png",
+    layout="wide",
+)
 
-    # Display chat history with edit functionality
-    for idx, message in enumerate(st.session_state.messages):
-        with st.chat_message(message["role"]):
-            if message["role"] == "assistant":
-                col1, col2 = st.columns([0.95, 0.05])
-                with col1:
-                    if idx in st.session_state.editing and st.session_state.editing[idx]:
-                        edited_response = st.text_area(
-                            "Edit response",
-                            value=message["content"],
-                            key=f"edit_{idx}",
-                            label_visibility="collapsed"
-                        )
-                        if st.button("Save", key=f"save_{idx}", type="primary"):
-                            st.session_state.messages[idx]["content"] = edited_response
-                            st.session_state.editing[idx] = False
-                            st.rerun()
-                    else:
-                        st.markdown(message["content"])
-                with col2:
-                    if st.button("✏️", key=f"edit_btn_{idx}"):
-                        st.session_state.editing[idx] = not st.session_state.editing.get(idx, False)
-                        st.rerun()
-            else:
-                st.write(message["content"])
+col1, col2 = st.columns([8, 1])
+st.sidebar.image(f"{path}/images/icon.png")
+st.sidebar.markdown("""
+    **Greetings, my FuHo brother!**
 
-    # Add clear button
-    if st.button("Clear Chat 🗑️"):
-        st.session_state.messages = []
-        st.session_state.editing = {}
-        st.rerun()
+    I'm your trusty Data Mapping AI assistant, here to guide you through the intricate world of data transformation.
+    """
+)
 
-main()
+with col1:
+    st.title("Mapping Automation")
+    # st.image(f"{path}/images/icon.png")
+
+with st.expander("Upload your BRD file to start!", False):
+    uploaded_file = st.file_uploader("Browse")
+# Check availability
+    if uploaded_file is not None:
+        # Enable the button if a file is uploaded
+        if st.button("Check Availability"):
+            contents = uploaded_file.read().decode('utf-8')
+            st.write(contents)
+
+    else:
+        # Show a disabled button if no file is uploaded
+        st.button("Check Availability", disabled=True)
+        st.write("Please upload a file to enable the button.")
+    
+    if uploaded_file is not None:
+    # Read the contents of the uploaded file

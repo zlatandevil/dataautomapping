@@ -1,0 +1,31 @@
+Field Name,Data Type,Description,Sample
+unique_id_source_stm,string,The unique id of contract which customers is holding. This contains number of contract & product code & category code& branch code.,ADG.0022303-TCBondPro180-ANCO09202102
+customer_code,string,The customer code which record in t24 system,26366200
+prd_code,String,the product code of the bond which customers are holding and this is combined by bond code & category code,iBondPro90-ANCO09202102
+category_code,string,The type of bond which the different characteristics: term of interest amount/flexible trading or not.,iBondPrix
+bond_code,string,The sub-category bond which divides bond into many kinds by issuers.,ANCO00000000
+bond_issuer_name,string,The full name of issuer of Bond code. This show who issues these bond to the market for customer.,Công Ty C? Ph?n Dinh D??ng Nông Nghi?p Qu?c T?
+bond_published date,date,The start date of contract which it was published into the market at the first time,01/09/2021
+bond_expired_date,date,The end date of contract which is the end term,01/09/2021
+the_eff_date_contract,date,The start date of contract which customers buy it for the first time,01/09/2021
+the_end_date_of_contract,date,The end date of contract which is sold out with eop_bal = 0,01/09/2021
+coupon_date,date,Interest paid date due to the schedule of bond contract,01/09/2021
+close_coupon_date,date,the end date of period to calculate the interest amount due to the schedule of bond contract,01/09/2021
+open_coupon_date,date,the open date of period to calculate the interest amount due to the schedule of bond contract,01/09/2021
+coupon_rate,int,The interest rate of bond paid to the customer who hold bond contract,9.9
+rate_basic,"decimal(38,6)",Basic number date to calculate the interest amount: 365/366 or actual day in year,360
+par_value,"decimal(38,6)",Unit amount of a Bond (10.000vnd/bond),100000
+branch_code_of_deal,string,The unique code of TCB branch which generated on T24 system and the arrangement was recorded in that branch. It contains BNK/LHA/TLG...,QU5
+sale_direct_account,string,The customer code generated in T24 system of saler who support directly customer to deposit money into Techcombank,8886393000
+sale_direct_id,string,The customer account generated in T24 system of saler who support directly customer to deposit money into Techcombank,34834000
+sale_referral_account,string,The customer account generated in T24 system of saler who referred to support customer to deposit money into Techcombank,1.90288E+13
+sale_referral_id,string,The customer code generated in T24 system of saler who referred to support customer to deposit money into Techcombank,28830000
+Unique Arrangement ID,string,Contract / Arrangement unique identifier. Hash from arrangement unq_id_src_stm and src_stm_id,bb6a2e8b-25fd-50dd-9ff0-dbc73a05aaa1
+Unique Customer ID,string,Involve party unique identifier. Hash from invole party unq_id_src_stm and src_stm_id,9063e7d8-6ae7-5a05-b779-2f2aa9a0aa0a
+ds_src_stm_id,string,Source system-id,TCBS_BOND
+ds_rec_st,int,Record Status,1
+ds_ins_dt,String,Inserted date,09/09/2023
+ds_upd_dt,String,Updated date,09/09/2023
+ds_etl_ts,Timestamp,ETL Time,2023-09-30T07:05:27.884
+ds_change_type,String,Record change data type,UPDATE
+ds_partition_date,String,Partition date,09/09/2023

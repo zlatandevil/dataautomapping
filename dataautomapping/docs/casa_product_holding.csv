@@ -1,0 +1,63 @@
+Field name,Data Type,Description Review,Sample
+ar_id,String,The technical field to mask the agreement contract between bank and customer. Identifier  - primary key for the table. Generate from Natural Key ,0f1012c4-aaac-55f6-ac5e-c838098817f0
+unq_id_src_stm,String,The contract number in T24 system which generated for each arrangement. It may be an account with 14 numbers or started with LD/MM.,1E+12
+ip_id,String,The technical field to mask the customer code of customer. Generate from Natural Key.,6adff338-107a-5b91-8329-81711200fdc0
+cst_code,String,The customer code which generated in T24 system for whom own the Timedeposit Arrangement.,21469000
+src_eff_dt,date,The begin date in term of contract. If the arrangement has not been rollovered then src_eff_dt the same as src_orig_eff_dt,20/12/2023
+src_orig_eff_dt,date,The original begin date in term of contract. If the arrangement has not been rollovered then src_eff_dt the same as src_orig_eff_dt.,20/12/2023
+src_mat_date,date,The end date in term of contract.  If the arrangement has not been rollovered then src_mat_dt the same as src_orig_mat_dt.,20/12/2023
+src_origin_mat_date,date,The original end date in term of contract. If the arrangement has not been rollovered then src_mat_dt the same as src_orig_mat_dt,20/12/2023
+acct_cls_date,date,The end date of account,20/12/2023
+ar_bsn_line,String,The bizline of customers who holding the contract. Classify customers into such ecomonic groups: RETAIL/SME/TREAS…,RETAIL
+prgm_code,String,The campaign for each period would be identified by Program code. IT contains Numbers and Alphabets,-1
+br_code,String,The unique code of TCB branch which generated on T24 system and the arrangement was recorded in that branch. It contains VN001…,VN0010033
+pd_code,String,The unique code of TCB's product which generated on T24 system and the arrangement was inputted product code onto. It contains numbers.,180113
+pd_lvl_1_nm,String,Name of the first level on CF's product tree. This classifies product into these groups: Lending/Deposit/Bond/Banca/Card…,Deposit
+pd_lvl_2_nm,String,Name of the second level on CF's product tree. This classifies group of product into sub-groups. Example: Deposit devided into CASA/Term Deposit & Valuable papers issued to customers,RETAIL_CASA
+pd_lvl_3_nm,String,Name of the third level on CF's product tree. This classifies sub-group of product into sub-sub-group of products. Example: Term Deposit devided into Tiet_Kiem_thuong/Tiet_Kiem_Gui_Gop/Tiet_Kiem_Linh_Hoat/Normal_Term_Deposit/Marginal_Account…,CASA normal
+pd_lvl_4_nm,String,Name of the fourth level on CF's product tree. This classifies sub-sub-group of product into detail products. Example: Tiet_Kiem_thuong devided into Tiet_Kiem_Thuong_Tai_Quay/Tiet_Kiem_Thuong_Online,Gold Package
+pd_lvl_5_nm,String,Name of the fifth level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Gold Package
+pd_lvl_6_nm,String,Name of the sixth level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Gold Package
+pd_lvl_7_nm,String,Name of the seventh level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Gold Package
+sctr_code,String,The sector code of customer generated in T24 system which classifies customers into economic group like bizline.,4024
+group_acc_tcb_id,,the type group of account,3313
+cgy_code,String,The unique code to classify the group of product which generated on T24 system and the arrangement. It contains numbers.,1001
+gl_tenor,String,"The type of currency of the arrangement. It may be VietNam Dong, Dollar, Euro.. It contains alphabet: VND/USD/EUR…",-1
+src_stm_id,String,The Module of source system where the arrangement come from: T24_AZ/T24_AC/T24_LD/T24_PD/T24_LC/T24_LM/T24_LD…,T24_AC
+ccy_code,String,"The type of currency of the arrangement. It may be VietNam Dong, Dollar, Euro.. It contains alphabet: VND/USD/EUR…",VND
+joint_hldr,String,joint holder who is the co-owner of the arrangement,
+pps_code,String,The unique code of TCB purpose code which generated on T24 system and define which purpose related to the arrangment. It contains numbers.,2010
+direct_sale_id,String,The customer code generated in T24 system of saler who support directly customer to deposit money into Techcombank,20000000
+direct_sale_ac,String,The customer account generated in T24 system of saler who support directly customer to deposit money into Techcombank,1.90259E+13
+referral_sale_id,String,The customer code generated in T24 system of saler who referred to support customer to deposit money into Techcombank,20000000
+referral_sale_ac,String,The customer account generated in T24 system of saler who referred to support customer to deposit money into Techcombank,1.90259E+13
+account_officer,String,The account_officer code of inputter in T24 system,771
+dept_code,String,The department code of Techcombank department in T24 system,302
+posting_restrict,string,Identifies any restrictions for posting entries that are imposed on a Customer,80
+ds_cl_id,String,Product code identified by Product tree.Automatically generate from MR Engine to identify the product on the product tree,10101010000
+ds_cl_code,String,Automatically generate from MR Engine to identify the product on the product tree,-1
+ds_sro_id,String,Automatically generate from MR Engine to identify the product on the product tree,1003
+ds_sro_cd,String,Default value = 'crm_pd_t24 ',crm_pd_t24
+ds_rule_id,String,Automatically generate from MR Engine to identify the rule to map product on the product tree,110100946
+ds_rule_clause,String,Automatically generate from MR Engine and it is the array value and combine all the information of product rule,"SELECT PD_T24.ARR_ID as ARR_ID, PD_T24.CLS_BAL_FCY as CLS_BAL_FCY FROM `tcb-prod-golden_curated`.`stg_cv_product_input_t24` as PD_T24 WHERE PD_T24.LIMIT_REF NOT LIKE '900%' "
+ds_rule_detail,String,Automatically generate from MR Engine and it is the array value and combine the ranking of the rule,[{'RANKING': 1112}]
+bizline_contract,String,,RETAIL
+eff_dt,date,,12/08/2024
+end_dt,date,,12/08/2024
+rec_st,int,,0
+ppn_dt,date,,12/08/2024
+aprv_app_dt,date,Deposit approval date (Note: In review),
+orig_pnp,numeric,Principal Amount (Note: In review),
+int_frq,string,Interest Payment Frequency (Note: In review),
+src_ac,string,Disbursement Account (Note: In review),
+prin_rcv_ac,string,Interest Payment Account (Note: In review),
+int_rcv_ac,string,Principal Payment Account (Note: In review),
+lucky_account,string,Identifies whether account is lucky account or not,YES
+bundle_package_code,string,Code bundle package (Note: In review),
+bundle_status,string,Status bundle package of account (Note: In review),
+pd_lvl_1_id,string,Id of the first level on CF's product tree (Note: In review),
+pd_lvl_2_id,string,Id of the second level on CF's product tree (Note: In review),
+pd_lvl_3_id,string,Id of the third level on CF's product tree (Note: In review),
+pd_lvl_4_id,string,Id of the forth level on CF's product tree (Note: In review),
+pd_lvl_5_id,string,Id of the fifth level on CF's product tree (Note: In review),
+pd_lvl_6_id,string,Id of the sixth level on CF's product tree (Note: In review),

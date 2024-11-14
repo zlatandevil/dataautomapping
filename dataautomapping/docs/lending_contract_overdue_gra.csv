@@ -1,0 +1,20 @@
+Field name,Data Type,Description
+ar_id,string,unique contract numner
+unq_id_src_stm,string,contract_number
+ip_id,string,The unique identifier assigned to an Involved Party (customer). Look up in IP table
+cst_code,string,The customer code which generated in T24 system for whom own the Lending Arrangement
+last_past_due_date_principal,date,Latest principal overdue date
+last_past_due_date_interest,date,Latest interest overdue date
+overdue_day_principal,int,Principal number of days overdue
+overdue_day_interest,int,Interest number of days overdue
+overdue_days,int,Number of days overduem include overdue of principal and interest
+overdue_balance_principal,decimal (38,6),Principal overdue balance
+overdue_balance_interest,decimal (38,6),Interest overdue balance
+overdue_balance,decimal (38,6),Overdue balance include overdue of principal and interest
+ds_partition_date,string ,data date
+ds_src_stm_id,string ,Value of the source system where the record comes from
+ds_rec_st,int,Status of this record, includes
+ds_ins_dt,string,Date when the record created.
+ds_upd_dt,string,Date when the record updated
+ds_etl_time,timestamp,System timestamp when ETL job executed (UTC) to populate data to the main table
+ds_change_type,string,The ds_change_type value is based upon the target table in Curated

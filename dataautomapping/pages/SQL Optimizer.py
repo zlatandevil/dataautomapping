@@ -1,5 +1,8 @@
 import streamlit as st
 import google.generativeai as genai
+import pandas as pd
+
+path = '/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping'
 
 def init_model():
     genai.configure(api_key="AIzaSyCn9L6fMD6ORt0b21mmVXBH0lQnFaYH7i8")
@@ -24,10 +27,11 @@ def main(title_ = 'SQL Optimizer',
 
     # Chat input
     user_input = st.chat_input("Enter your message (type 'end' to stop)")
-
+    chat_log = []
     if user_input:
         if user_input.lower() == 'end':
             st.write("Chat ended. Refresh to start a new chat.")
+            pd.DataFrame(chat_log).to_csv(f'{path}/logging/chat_log/log.csv', index=False)
         else:
             # Add user message to chat
             st.session_state.messages.append({"role": "user", "content": user_input})
@@ -35,6 +39,7 @@ def main(title_ = 'SQL Optimizer',
             response = sql_optimize(user_input)
             markdown_response = f"""{response}"""
             st.session_state.messages.append({"role": "assistant", "content": markdown_response})
+            chat_log.append({'user':user_input,'model':response})
 
     # Display chat history with edit functionality
     for idx, message in enumerate(st.session_state.messages):

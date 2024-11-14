@@ -1,0 +1,19 @@
+Field name,Data Type,Description
+ar_id,string,unique contract numner
+unq_id_src_stm,string,contract_number
+ip_id,string,The unique identifier assigned to an Involved Party (customer). Look up in IP table
+cst_code,string,The customer code which generated in T24 system for whom own the Lending Arrangement
+tcb_base_loan_group,string,The final contract classification group use for report
+tcb_base_reason,string,The final contract classification reasson
+rule_type,string,Rule of loan classification
+provision_loan_group,string,The contract classification group use for provision
+Provison_rule_type,string,Rule of loan classification for provision
+Investigation_loan_group,string,Loan classification group of investigation rule
+Investigation_reason,string,Loan classification reason of investigation rule
+ds_partition_date,string ,data date
+ds_src_stm_id,string ,Value of the source system where the record comes from
+ds_rec_st,int,Status of this record
+ds_ins_dt,string,Date when the record created.
+ds_upd_dt,string,Date when the record updated
+ds_etl_time,timestamp,System timestamp when ETL job executed (UTC) to populate data to the main table
+ds_change_type,string,The ds_change_type value is based upon the target table in Curated
