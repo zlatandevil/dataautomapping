@@ -1,0 +1,17 @@
+Field name,Data Type,Description
+ar_id,string ,unique contract numner
+unq_id_src_stm,string ,contract_number
+ip_id,string ,The unique identifier assigned to an Involved Party (customer). Look up in IP table
+cst_code,string ,The customer code which generated in T24 system for whom own the Lending Arrangement
+key_interest_support,string ,key of map filed
+start_date,date,start date of support interest
+end_date,date,end date of support interest
+status,string ,interest rate support status of contract (unq_id_src_stm)
+status_date_support_interest,string ,interest rate support status of each entry
+ds_partition_date,string ,data date
+ds_src_stm_id,string ,Value of the source system where the record comes from
+ds_rec_st,int,Status of this record
+ds_ins_dt,string,Date when the record created.
+ds_upd_dt,string,Date when the record updated
+ds_etl_time,timestamp,System timestamp when ETL job executed (UTC) to populate data to the main table
+ds_change_type,string,The ds_change_type value is based upon the target table in Curated

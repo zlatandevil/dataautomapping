@@ -1,0 +1,20 @@
+Field name,Data Type,Description
+ar_id,string ,unique contract numner
+unq_id_src_stm,string ,contract_number
+ip_id,string ,The unique identifier assigned to an Involved Party (customer). Look up in IP table
+cst_code,string ,The customer code which generated in T24 system for whom own the Lending Arrangement
+overdue_type,string ,the type of overdue base on the schedule, includes: IN (Interest), PE (Penalty), PS (Penalty), PR (Principal)
+key,string ,Key in the map field pd.pay_type 
+overdue_date,date,Overdue date corresponding to overdure type 
+overdue_amount,decimal (21, 6),Overdue date corresponding to overdure type and overdue date
+accumulate_overdue_amount,decimal (21, 6),accumulate overdue amount
+overdue_paid_date,date,Date of full payment of overdue debt
+ds_partition_date,string ,data date
+ds_src_stm_id,string ,Value of the source system where the record comes from, include:  T24_PD, CC, BOND
+"ds_rec_st,int,Status of this record, includes: 
+0: Record inactive (deleted)
+1: Record active (not deleted)"
+ds_ins_dt,string,Date when the record created.
+ds_upd_dt,string,Date when the record updated
+ds_etl_time,timestamp,System timestamp when ETL job executed (UTC) to populate data to the main table
+ds_change_type,string,The ds_change_type value is based upon the target table in Curated

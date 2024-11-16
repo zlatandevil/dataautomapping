@@ -1,0 +1,7 @@
+source_table,source_column,target_table,target_column,one_to_many,one_to_one,many_to_many,sql_transform
+t24_customer__cob,customer_code,idv,unq_id_src_stm,FALSE,TRUE,FALSE,customer_code = unq_id_src_stm
+idv,unq_id_src_stm,td_product_holding,cst_code,TRUE,FALSE,FALSE,unq_id_src_stm = cst_code
+idv,unq_id_src_stm,casa_product_holding,cst_code,TRUE,FALSE,FALSE,unq_id_src_stm = cst_code
+t24_customer__cob,customer_code,lending_contract_classification_gra,cst_code,TRUE,FALSE,FALSE,customer_code = cst_code
+lending_contract_overdue_gra,cst_code,lending_contract_classification_gra,cst_code,FALSE,TRUE,FALSE,cst_code = cst_code
+lending_support_interest_gra,cst_code,lending_contract_classification_gra,cst_code,FALSE,TRUE,FALSE,cst_code = cst_code

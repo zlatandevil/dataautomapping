@@ -1,7 +1,17 @@
 import time
 import streamlit as st
-from models.sumUp import sumup
-from models.dataMapping import scenario1 as sc1
+import google.generativeai as genai
+genai.configure(api_key='AIzaSyBHOARN4j3c-yDp3DjhHjHT04JYLqZSBZY')
+def sumup(brd):
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    reply = model.generate_content(f"""
+        Sum up information in this Business Requirement Declaration 
+        //"{brd}"//
+        And list down all features this BRD look need to identify!
+        Beautify your return in markdown as much as possible. At least beautify your list of features!
+        Shorten your answer in 300 words and return information in suitable table format.
+        """)
+    return reply.text
 # from models.dataMapping import upload_to_gemini, wait_for_files_active
 
 path = "/Users/huyenvu/Documents/temp/gemini_apps/data_automapping/dataautomapping"
@@ -28,15 +38,13 @@ def scen1():
     # Check availability
     if uploaded_file is not None:
         # Enable the button if a file is uploaded
-        brd = uploaded_file.read()
-        summary_text = (sumup(brd))
-        if st.button("Try Mapping"):
-            mapping = sc1(f'DMP2 {brd}')
-            st.markdown(mapping)
+        brd = (uploaded_file.read())
+        st.markdown(sumup(brd))
+        #st.markdown(summary_text)
 
     else:
         # Show a disabled button if no file is uploaded
-        st.button("Try Mapping", disabled=True)
+        st.button("Sum Up", disabled=True)
         st.write("Please upload a file to enable the button.")
 
 def scen2(brd):

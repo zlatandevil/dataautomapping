@@ -1,0 +1,25 @@
+1. Business Context
+This User Requirement Document (URD) is designed to support Priority Relationship Managers (PRMs) in gaining comprehensive insights into their customers' product holdings. By collecting and analyzing this information, PRMs will be better equipped to:
+•	Understand the current product portfolio of each customer
+•	Identify potential cross-selling and upselling opportunities
+•	Tailor product recommendations based on existing holdings
+•	Assess the overall financial engagement of customers with the bank
+•	Improve customer relationship management and service delivery
+2. Scope
+This URD focuses on collecting product holding information for customers who meet the following criteria:
+•	Were first contacted in September
+•	Only get “Lending” product balance
+3. Customer Information Requirements
+To provide PRMs with actionable insights, the following information should be collected and presented:
+1.	Customer Identification: 
+o	Customer ID
+o	Full name
+2.	Product Holding Information: 
+o	Product: Lending
+o	Latest balance
+o	Date of last balance update
+4. Data Presentation Format
+The information should be presented in a tabular format for easy reading and analysis. Here's an example of how the data could be structured:
+Customer ID	Full Name	Product Category	Latest Balance	Balance Update Date
+12345	John Doe	Lending	10,000,000	2024-10-15
+12346	Adam Smith	Lending	5,000,000	2024-10-15

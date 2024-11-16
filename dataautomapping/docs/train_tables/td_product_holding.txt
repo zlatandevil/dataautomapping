@@ -1,0 +1,88 @@
+Field name,Data Type,Description,Sample
+ar_id,String,The technical field to mask the agreement contract between bank and customer. Identifier  - primary key for the table. Generate from Natural Key ,39f856df-6aad-5ee8-9129-aaaeafaab000
+unq_id_src_stm,String,The contract no in T24 system which generated for each arrangement. It may be an account with 14 numbers or started with LD/MM.,1.46E+13
+ip_id,String,The technical field to mask the customer code of customer. Generate from Natural Key.,40c3df85-2c63-5cd9-a6f1-23c461b7a000
+cst_code,String,The customer code which generated in T24 system for whom own the Timedeposit Arrangement.,30000000
+src_eff_dt,String,The begin date in term of contract. If the arrangement has not been rollovered then src_eff_dt the same as src_orig_eff_dt,27/06/2024
+src_orig_eff_dt,String,The original begin date in term of contract. If the arrangement has not been rollovered then src_eff_dt the same as src_orig_eff_dt.,27/06/2024
+src_mat_dt,String,The end date in term of contract.  If the arrangement has not been rollovered then src_mat_dt the same as src_orig_mat_dt.,27/06/2024
+src_orig_mat_dt,String,The original end date in term of contract. If the arrangement has not been rollovered then src_mat_dt the same as src_orig_mat_dt,27/06/2024
+gl_tenor,String,"Identify the type of tenor of the arrangement. Include the values:
+LT: long term period
+MT: mid term period
+ST: short term period",ST
+ar_bsn_line,String,The bizline of customers who holding the contract. Classify customers into such ecomonic groups: RETAIL/SME/TREAS…,RETAIL
+prgm_code ,String,The campaign for each period would be identified by Program code. IT contains Numbers and Alphabets,-1
+policy_cd,String,The policy for each period or for each group of customer would be identified by policy code. IT contains Numbers and Alphabets,-1
+br_code,String,The unique code of TCB branch which generated on T24 system and the arrangement was recorded in that branch. It contains VN001…,VN0010000
+pd_code,String,The unique code of TCB's product which generated on T24 system and the arrangement was inputted product code onto. It contains numbers.,184013
+pd_nm,String,The commercial name of product code which generated on T24 system.,Tai khoan tiet kiem Phat loc Online
+pd_lvl_1_nm,String,Name of the first level on CF's product tree. This classifies product into these groups: Lending/Deposit/Bond/Banca/Card…,Deposit
+pd_lvl_2_nm,String,Name of the second level on CF's product tree. This classifies group of product into sub-groups. Example: Deposit devided into CASA/Term Deposit & Valuable papers issued to customers,RETAIL_Term_Deposit
+pd_lvl_3_nm,String,Name of the third level on CF's product tree. This classifies sub-group of product into sub-sub-group of products. Example: Term Deposit devided into Tiet_Kiem_thuong/Tiet_Kiem_Gui_Gop/Tiet_Kiem_Linh_Hoat/Normal_Term_Deposit/Marginal_Account…,TD Normal
+pd_lvl_4_nm,String,Name of the fourth level on CF's product tree. This classifies sub-sub-group of product into detail products. Example: Tiet_Kiem_thuong devided into Tiet_Kiem_Thuong_Tai_Quay/Tiet_Kiem_Thuong_Online,TD Normal_Online
+pd_lvl_5_nm,String,Name of the fifth level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Tien gui Phat Loc Online
+pd_lvl_6_nm,String,Name of the sixth level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Tien gui Phat Loc Online
+pd_lvl_7_nm,String,Name of the seventh level on CF's product tree. Due to the requirement of business to devide group of product into more detail.,Tien gui Phat Loc Online
+sctr_code,String,The sector code of customer generated in T24 system which classifies customers into economic group like bizline.,4024
+cgy_code,String,The unique code to classify the group of product which generated on T24 system and the arrangement. It contains numbers.,3017
+src_stm_id,String,The Module of source system where the arrangement come from: T24_AZ/T24_AC/T24_LD/T24_PD/T24_LC/T24_LM/T24_LD…,T24_AC
+ccy_code,String,"The type of currency of the arrangement. It may be VietNam Dong, Dollar, Euro.. It contains alphabet: VND/USD/EUR…",VND
+legacy_ref,String,The legacy reference of arrangement. It may the the contract no on hard-version.,TA04634284
+interest_rate,String,The interest percent that Techcombank pays for customers when customers deposit money,2.9
+int_rate_type,String,"Type of interest rate (if any). There are different types of interest rates that can be applied to loans or investments. Some of these include: 
+Fixed Interest Rate
+Variable Interest Rate
+Annual Percentage Rate
+Prime Interest Rate
+Discounted Interest Rate
+Simple Interest Rate
+Compound Interest Rate",1
+interest_spread,String,"The interest rate charged by Techcombank on loans to private sector customers minus the interest rate paid by commercial or similar banks for demand, time, or savings deposits.",0
+joint_hldr,String,joint holder who is the co-owner of the arrangement,20437143
+auto_rollover,String,"Indetify where customers let the arrangement auto rollover:
+Y: Yes
+N: No",Yes
+pps_code,String,The unique code of TCB purpose code which generated on T24 system and define which purpose related to the arrangment. It contains numbers.,4020
+direct_sale_id,String,The customer code generated in T24 system of saler who support directly customer to deposit money into Techcombank,
+direct_sale_ac,String,The customer account generated in T24 system of saler who support directly customer to deposit money into Techcombank,1.90E+13
+referral_sale_id,String,The customer code generated in T24 system of saler who referred to support customer to deposit money into Techcombank,33000000
+referral_sale_ac,String,The customer account generated in T24 system of saler who referred to support customer to deposit money into Techcombank,1.90E+13
+account_officer,String,The account_officer code of inputter in T24 system,1
+dept_code,String,The department code of Techcombank department in T24 system,302
+mnemonic,String,3-digit branch code of T24,123
+Sub_product,String,"CD Max, CD Self Trade distinction field (change naming Channel - used to define Online or Counter)",
+customer_coupon,"decimal(36,8)",Coupon due rate of customer,302
+current_tenor,int,Contract term (36M/48M),
+current_tenor_unit,String,Tenor unit (M),
+payment_frequency,String,Contract interest payment term (1M/3M/6M),
+payment_frequency_unit,string,Contract interest payment unit (M),
+repricing_frequency,String,Frequency of interest rate change: fixed or float,
+repricing_frequency_unit,string,Unit of interest rate change period: D/M,
+start_interest_period,date,Interest payment start date,
+ds_cl_id,string,Automatically generate from MR Engine to identify the product on the product tree,10201010100
+ds_cl_code,string,Automatically generate from MR Engine to identify the product on the product tree,-1
+ds_sro_id,int,Automatically generate from MR Engine to identify the product on the product tree,1003
+ds_sro_cd,string,Default value = 'crm_pd_t24',crm_pd_t24
+ds_rule_id,string,Automatically generate from MR Engine to identify the rule to map product on the product tree,110100411
+ds_rule_clause,string,Automatically generate from MR Engine and it is the array value and combine all the information of product rule,SELECT PD_T24.ARR_ID…
+ds_rule_detail,string,Automatically generate from MR Engine and it is the array value and combine the ranking of the rule,[{'RANKING': 112}]
+eff_dt ,String,Effective date of record,27/06/2024
+end_dt ,String,End date of record,27/06/2024
+rec_st ,String,Record status,1
+ppn_dt,String,,26/01/2024
+interest_start_date,date,the date that the current interest rate is applied ,26/01/2024
+interest_end_date,date,the date that the current interest rate expires ,26/01/2024
+agreement_date,date,"Date that the deposit is approved, maybe equal or less than the effective date ",14/12/2023
+original_principal,"decimal(38, 6)",The original principal of the deposit with no interest ,200000000
+Interest_frequency,String,"Interest payment frequency, defined in the schedule of the contract ",7M
+source_account,String,"Due principal payment account, the account that receive the due principal from the bank",366336
+principal_receive_account,String,"Principal payment account, the account that receive the principal from the bank",366336
+interest_receive_account,String,"Interest payment account, the account that receive the due interest from the bank",VND1000100010342
+bizline_contract,String,,RETAIL
+pd_lvl_1_id,String,ID of the first level on CF's product tree (Note: In review),
+pd_lvl_2_id,String,ID of the second level on CF's product tree (Note: In review),
+pd_lvl_3_id,String,ID of the third level on CF's product tree (Note: In review),
+pd_lvl_4_id,String,ID of the forth level on CF's product tree (Note: In review),
+pd_lvl_5_id,String,ID of the fifth level on CF's product tree (Note: In review),
+pd_lvl_6_id,String,ID of the sixth level on CF's product tree (Note: In review),

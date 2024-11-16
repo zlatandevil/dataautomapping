@@ -1,0 +1,30 @@
+1. Business Context
+This User Requirement Document (URD) is created to support Priority Relationship Managers (PRMs) in gaining deeper insights into their customers. By collecting and analyzing demographic information, PRMs will be better equipped to:
+•	Understand customer profiles and preferences
+•	Tailor services and products to specific customer needs
+•	Improve customer engagement and satisfaction
+•	Identify potential cross-selling and upselling opportunities
+•	Enhance overall customer relationship management
+2. Scope
+This URD focuses on collecting demographic information for customers who meet the following criteria:
+•	Belong to the segments: 
+o	'RBG_TASK_SERVICE_Chương trình khách hàng sinh nhật tháng 10'
+o	'RBG_TASK_SERVICE_HET HAN HTLS tháng 10'
+•	Were first contacted in September
+3. Customer Information Requirements
+To support PRMs in gaining comprehensive insights, the following customer information should be collected:
+1.	Basic Personal Information: 
+o	Full name (Vietnamese/English)
+o	Date of birth
+o	Gender
+o	Marital status
+2.	Contact Information: 
+o	Primary phone number
+o	Email address
+3.	Address Information: 
+o	Current residential address
+o	Mailing address (if different from residential)
+4.	Professional Information: 
+o	Occupation
+o	Employment status (employed, self-employed, retired, etc.)
+o	Annual income range
